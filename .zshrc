@@ -1,8 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/tanatlokejaroenlarb/.oh-my-zsh"
+export ZSH="/Users/porpaul/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -68,14 +67,29 @@ ZSH_DISABLE_COMPFIX=true
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git
-zsh-autosuggestions
-zsh-syntax-highlighting
 docker
 helm
+vscode
+golang
+zsh-autosuggestions
+zsh-syntax-highlighting
 history
 )
 
+export SPACESHIP_KUBECTL_SHOW=true
+
 source $ZSH/oh-my-zsh.sh
+
+export GOPATH=~/go
+export GOROOT=/usr/local/go
+export GOPRIVATE=*.mpi-internal.com
+
+
+# Krew
+export PATH="${PATH}:${HOME}/.krew/bin"
+
+# VSCode
+code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
 # User configuration
 
@@ -91,12 +105,6 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
-# Java
-export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-# default to Java 11
-java11
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -108,6 +116,9 @@ java11
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias proclusters="kubectl get pod -l 'context.schip.io/account in (cre-pro,cpr-pro)' -n cluster-deployer  -o custom-columns='NAME:.metadata.name,ACCOUNT:.metadata.labels.context\.schip\.io\/account,REGION:.metadata.labels.context\.schip\.io\/region,VERSION:.metadata.labels.context\.schip\.io\/sha,RELEASE:.metadata.labels.context\.schip\.io\/version,PHASE:.status.phase,CREATED:.metadata.creationTimestamp,STARTED:.status.startTime' --sort-by='{.metadata.creationTimestamp}'"
+alias cpr="cd ~/Desktop/adevinta/code/cpr"
+alias gl="g log --graph --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ar %G?)%Creset'"
 alias tf="terraform"
 alias k="kubectl"
 alias kx="kubectx"
